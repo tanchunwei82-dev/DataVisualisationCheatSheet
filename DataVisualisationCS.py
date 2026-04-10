@@ -56,7 +56,6 @@ chart_type = st.sidebar.radio("Select a chart type:", [
     "📦 Box Plot",
     "🟥 Heatmap",
     "🥧 Pie Chart",
-    "📐 Hypothesis Testing",
 ])
 
 st.sidebar.divider()
@@ -72,6 +71,13 @@ st.sidebar.markdown("""
 | Heatmap | Patterns in matrix |
 | Pie | Part of whole |
 """)
+
+st.sidebar.divider()
+st.sidebar.title("🎯 Showcase")
+show_hypothesis = st.sidebar.radio("Advanced examples:", [
+    "None",
+    "📐 Visualisation to Hypothesis",
+])
 
 # ── Chart Sections ────────────────────────────────────────────────────────────
 
@@ -606,7 +612,7 @@ plt.show()
         st.pyplot(fig2)
 
 # ── 8. HYPOTHESIS TESTING ────────────────────────────────────────────────────
-elif chart_type == "📐 Hypothesis Testing":
+if show_hypothesis == "📐 Visualisation to Hypothesis":
     st.header("📐 Visualisation to Hypothesis")
     st.markdown("*Each chart below supports a specific analytical claim — the foundation of data storytelling.*")
     st.divider()
@@ -666,26 +672,7 @@ elif chart_type == "📐 Hypothesis Testing":
     st.divider()
 
     # ── Hypothesis 3 ──
-    st.subheader("Hypothesis 3 — Downtime Drives Underperformance")
-    st.info("💡 **Claim:** Assets with higher downtime hours show lower performance ratios.")
-
-    fig3 = px.scatter(perf_df,
-                      x='Downtime_Hours',
-                      y='Performance_Ratio_Pct',
-                      color='Asset_ID',
-                      size='Downtime_Hours',
-                      trendline='ols',
-                      title='Downtime Hours vs Performance Ratio',
-                      labels={
-                          'Downtime_Hours': 'Downtime Hours',
-                          'Performance_Ratio_Pct': 'Performance Ratio (%)'
-                      })
-    st.plotly_chart(fig3, use_container_width=True)
-    st.success("✅ **Conclusion:** A negative correlation exists between downtime hours and performance ratio — months with higher downtime consistently show lower energy yield performance.")
-    st.divider()
-
-    # ── Hypothesis 4 ──
-    st.subheader("Hypothesis 4 — Yield Variance is Worst in Q3")
+    st.subheader("Hypothesis 3 — Yield Variance is Worst in Q3")
     st.info("💡 **Claim:** Yield variance (actual vs expected) is most negative during Q3 across all assets.")
 
     perf_df['Yield_Variance'] = perf_df['Actual_Yield_MWh'] - perf_df['Expected_Yield_MWh']
@@ -710,8 +697,8 @@ elif chart_type == "📐 Hypothesis Testing":
     st.success("✅ **Conclusion:** The heatmap clearly shows negative yield variance (red) concentrated in Q3 months (Jul–Sep), particularly for ASSET-004 — confirming that Q3 is the most challenging performance period across the APAC portfolio.")
     st.divider()
 
-    # ── Hypothesis 5 ──
-    st.subheader("Hypothesis 5 — Portfolio Yield is Dominated by Largest Asset")
+    # ── Hypothesis 4 ──
+    st.subheader("Hypothesis 4 — Portfolio Yield is Dominated by Largest Asset")
     st.info("💡 **Claim:** ASSET-001 (Sabah, 13.45 MWp) contributes the majority of total portfolio yield due to its significantly larger installed capacity.")
 
     total_yield = perf_df.groupby('Asset_ID')['Actual_Yield_MWh'].sum().reset_index()
