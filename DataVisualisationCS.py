@@ -439,8 +439,6 @@ plt.show()
 
 # ── SHOWCASE: HYPOTHESIS TESTING ──────────────────────────────────────────────
 if show_hypothesis == "📐 Visualisation to Hypothesis":
-    st.header("📐 Visualisation to Hypothesis")
-    st.markdown("*Each chart below supports a specific analytical claim — the foundation of data storytelling.*")
     st.divider()
 
     # Hypothesis 1
