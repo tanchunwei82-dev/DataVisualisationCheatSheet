@@ -1,0 +1,5 @@
+Asset_ID,Asset_Name,Site_Location,Country,Technology_Type,Installed_Capacity_MWp,COD_Date,Status
+ASSET-001,Sabah Ground-Mount Solar Farm,"Kota Belud, Sabah",MY,Ground,13.45,2023-03-15,Operational
+ASSET-002,Bangkok Floating Solar Project,"Nonthaburi, Bangkok",TH,Floating,2.83,2022-07-01,Operational
+ASSET-003,Manila Rooftop C&I Portfolio,"Quezon City, Metro Manila",PH,Rooftop,4.2,2022-11-20,Operational
+ASSET-004,Johor Carport Solar Installation,"Iskandar Puteri, Johor",MY,Carport,1.8,2023-06-10,Under Maintenance

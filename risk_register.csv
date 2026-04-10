@@ -1,0 +1,20 @@
+Risk_ID,Asset_ID,Risk_Category,Risk_Description,Likelihood,Impact,Risk_Score,Mitigation_Plan,Status,Owner
+RISK-0001,ASSET-001,Financial,FX exposure on USD-denominated equipment costs,Low,Medium,2,Hedge using forward contracts,Closed,Chun Wei Tan
+RISK-0002,ASSET-001,Environmental,Flooding risk during monsoon season,High,High,9,Install flood barriers and remote monitoring,Open,Chun Wei Tan
+RISK-0003,ASSET-001,Technical,Soiling losses exceeding 5% on panel surfaces,High,Medium,6,Increase cleaning frequency to bi-monthly,Mitigated,John Lim
+RISK-0004,ASSET-001,Technical,Inverter degradation affecting yield output,Medium,High,6,Schedule quarterly inverter inspections,Open,John Lim
+RISK-0005,ASSET-002,Financial,FX exposure on USD-denominated equipment costs,Low,Medium,2,Hedge using forward contracts,Closed,Sarah Tan
+RISK-0006,ASSET-002,Regulatory,Grid curtailment risk due to policy changes,Low,High,3,Engage regulatory counsel and monitor policy updates,Closed,Chun Wei Tan
+RISK-0007,ASSET-002,Environmental,Extreme heat events reducing inverter efficiency,Medium,Medium,4,Install additional cooling systems,Mitigated,Sarah Tan
+RISK-0008,ASSET-002,Technical,Inverter degradation affecting yield output,Medium,High,6,Schedule quarterly inverter inspections,Mitigated,Chun Wei Tan
+RISK-0009,ASSET-003,Technical,Inverter degradation affecting yield output,Medium,High,6,Schedule quarterly inverter inspections,Mitigated,Sarah Tan
+RISK-0010,ASSET-003,Environmental,Extreme heat events reducing inverter efficiency,Medium,Medium,4,Install additional cooling systems,Open,Ahmad Razif
+RISK-0011,ASSET-003,Environmental,Flooding risk during monsoon season,High,High,9,Install flood barriers and remote monitoring,Open,John Lim
+RISK-0012,ASSET-003,Financial,FX exposure on USD-denominated equipment costs,Low,Medium,2,Hedge using forward contracts,Mitigated,John Lim
+RISK-0013,ASSET-003,Contractual,O&M contractor performance below SLA thresholds,Medium,Medium,4,Monthly SLA review and penalty clause enforcement,Mitigated,Ahmad Razif
+RISK-0014,ASSET-004,Regulatory,Grid curtailment risk due to policy changes,Low,High,3,Engage regulatory counsel and monitor policy updates,Open,Chun Wei Tan
+RISK-0015,ASSET-004,Environmental,Extreme heat events reducing inverter efficiency,Medium,Medium,4,Install additional cooling systems,Mitigated,Chun Wei Tan
+RISK-0016,ASSET-004,Technical,Inverter degradation affecting yield output,Medium,High,6,Schedule quarterly inverter inspections,Mitigated,Chun Wei Tan
+RISK-0017,ASSET-004,Financial,FX exposure on USD-denominated equipment costs,Low,Medium,2,Hedge using forward contracts,Open,John Lim
+RISK-0018,ASSET-004,Technical,Soiling losses exceeding 5% on panel surfaces,High,Medium,6,Increase cleaning frequency to bi-monthly,Open,Sarah Tan
+RISK-0019,ASSET-004,Environmental,Flooding risk during monsoon season,High,High,9,Install flood barriers and remote monitoring,Mitigated,John Lim

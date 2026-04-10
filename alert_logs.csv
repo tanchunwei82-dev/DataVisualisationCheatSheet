@@ -1,0 +1,15 @@
+Alert_ID,Asset_ID,Alert_Type,Triggered_Date,Threshold_Breached,Acknowledged,Acknowledged_By
+ALERT-0005,ASSET-001,High Risk,2024-01-01,Risk Score 6 >= 6 (High),True,Sarah Tan
+ALERT-0004,ASSET-001,High Risk,2024-02-01,Risk Score 9 >= 6 (High),True,Chun Wei Tan
+ALERT-0006,ASSET-003,High Risk,2024-03-01,Risk Score 9 >= 6 (High),False,Sarah Tan
+ALERT-0012,ASSET-004,Maintenance Overdue,2024-04-07,Maintenance 'Inverter firmware update and performance check' status Pending,False,
+ALERT-0008,ASSET-002,Maintenance Overdue,2024-05-06,Maintenance 'Inverter firmware update and performance check' status Pending,False,
+ALERT-0011,ASSET-003,Maintenance Overdue,2024-06-08,Maintenance 'Thermal imaging scan of PV modules' status Pending,False,
+ALERT-0001,ASSET-004,Underperformance,2024-07-01,Performance Ratio 68.9% < 85% threshold,True,
+ALERT-0007,ASSET-004,High Risk,2024-07-01,Risk Score 6 >= 6 (High),True,
+ALERT-0009,ASSET-002,Maintenance Overdue,2024-07-23,Maintenance 'Emergency shutdown due to grid fault' status Pending,False,
+ALERT-0002,ASSET-004,Underperformance,2024-08-01,Performance Ratio 68.1% < 85% threshold,True,John Lim
+ALERT-0003,ASSET-004,Underperformance,2024-09-01,Performance Ratio 68.5% < 85% threshold,True,Chun Wei Tan
+ALERT-0013,ASSET-004,Maintenance Overdue,2024-09-05,Maintenance 'Thermal imaging scan of PV modules' status Pending,False,
+ALERT-0014,ASSET-004,Maintenance Overdue,2024-12-03,Maintenance 'Scheduled panel cleaning and inspection' status Pending,False,
+ALERT-0010,ASSET-002,Maintenance Overdue,2024-12-14,Maintenance 'Replacement of underperforming modules (3 units)' status Pending,False,

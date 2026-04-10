@@ -1,0 +1,34 @@
+Maintenance_ID,Asset_ID,Maintenance_Type,Description,Date,Cost_USD,Contractor,Resolution_Status
+MAINT-0005,ASSET-001,Corrective,Replacement of underperforming modules (3 units),2024-01-29,1958.1,SolarTech Services Sdn Bhd,In Progress
+MAINT-0001,ASSET-001,Corrective,Replacement of underperforming modules (3 units),2024-02-21,2260.25,SunCare Technical Services,In Progress
+MAINT-0006,ASSET-001,Corrective,Repair of damaged DC cabling,2024-05-17,879.43,GreenPower Maintenance Inc.,Completed
+MAINT-0002,ASSET-001,Preventive,Inverter firmware update and performance check,2024-07-08,477.64,GreenPower Maintenance Inc.,Completed
+MAINT-0004,ASSET-001,Corrective,Repair of damaged DC cabling,2024-07-13,1123.94,Asia O&M Solutions Co. Ltd,In Progress
+MAINT-0007,ASSET-001,Preventive,Thermal imaging scan of PV modules,2024-09-12,837.38,SunCare Technical Services,Completed
+MAINT-0003,ASSET-001,Emergency,Emergency shutdown due to grid fault,2024-11-21,2513.42,Asia O&M Solutions Co. Ltd,Completed
+MAINT-0010,ASSET-002,Preventive,Scheduled panel cleaning and inspection,2024-01-25,1361.1,Asia O&M Solutions Co. Ltd,Completed
+MAINT-0013,ASSET-002,Preventive,Thermal imaging scan of PV modules,2024-02-28,1009.03,GreenPower Maintenance Inc.,In Progress
+MAINT-0008,ASSET-002,Preventive,Inverter firmware update and performance check,2024-05-06,672.49,GreenPower Maintenance Inc.,Pending
+MAINT-0015,ASSET-002,Preventive,Thermal imaging scan of PV modules,2024-05-14,1183.13,Asia O&M Solutions Co. Ltd,Completed
+MAINT-0014,ASSET-002,Preventive,Scheduled panel cleaning and inspection,2024-05-30,934.77,SunCare Technical Services,Completed
+MAINT-0009,ASSET-002,Emergency,Emergency shutdown due to grid fault,2024-07-23,3085.99,Asia O&M Solutions Co. Ltd,Pending
+MAINT-0012,ASSET-002,Corrective,Repair of damaged DC cabling,2024-11-01,1995.35,GreenPower Maintenance Inc.,Completed
+MAINT-0011,ASSET-002,Corrective,Replacement of underperforming modules (3 units),2024-12-14,2344.32,SolarTech Services Sdn Bhd,Pending
+MAINT-0018,ASSET-003,Corrective,Repair of damaged DC cabling,2024-01-10,934.24,GreenPower Maintenance Inc.,In Progress
+MAINT-0019,ASSET-003,Preventive,Inverter firmware update and performance check,2024-01-30,420.44,SolarTech Services Sdn Bhd,Completed
+MAINT-0017,ASSET-003,Corrective,Replacement of faulty string combiner box,2024-03-23,2170.88,SolarTech Services Sdn Bhd,In Progress
+MAINT-0023,ASSET-003,Preventive,Thermal imaging scan of PV modules,2024-06-08,839.4,GreenPower Maintenance Inc.,Pending
+MAINT-0021,ASSET-003,Preventive,Thermal imaging scan of PV modules,2024-08-31,1168.11,Asia O&M Solutions Co. Ltd,In Progress
+MAINT-0020,ASSET-003,Preventive,Thermal imaging scan of PV modules,2024-09-05,1089.61,Asia O&M Solutions Co. Ltd,Completed
+MAINT-0022,ASSET-003,Emergency,Emergency shutdown due to grid fault,2024-11-06,3269.41,Asia O&M Solutions Co. Ltd,Completed
+MAINT-0016,ASSET-003,Corrective,Replacement of underperforming modules (3 units),2024-11-23,2515.33,Asia O&M Solutions Co. Ltd,Completed
+MAINT-0031,ASSET-004,Corrective,Repair of damaged DC cabling,2024-01-28,1608.04,SolarTech Services Sdn Bhd,Completed
+MAINT-0024,ASSET-004,Corrective,Repair of damaged DC cabling,2024-03-02,1097.49,SolarTech Services Sdn Bhd,In Progress
+MAINT-0033,ASSET-004,Preventive,Inverter firmware update and performance check,2024-04-07,568.14,Asia O&M Solutions Co. Ltd,Pending
+MAINT-0027,ASSET-004,Preventive,Scheduled panel cleaning and inspection,2024-06-18,570.86,Asia O&M Solutions Co. Ltd,In Progress
+MAINT-0032,ASSET-004,Corrective,Repair of damaged DC cabling,2024-06-22,1760.71,SolarTech Services Sdn Bhd,Completed
+MAINT-0029,ASSET-004,Preventive,Inverter firmware update and performance check,2024-08-30,703.75,Asia O&M Solutions Co. Ltd,Completed
+MAINT-0028,ASSET-004,Preventive,Thermal imaging scan of PV modules,2024-09-05,728.54,Asia O&M Solutions Co. Ltd,Pending
+MAINT-0025,ASSET-004,Preventive,Scheduled panel cleaning and inspection,2024-10-28,1053.92,Asia O&M Solutions Co. Ltd,Completed
+MAINT-0030,ASSET-004,Preventive,Scheduled panel cleaning and inspection,2024-12-03,931.05,SunCare Technical Services,Pending
+MAINT-0026,ASSET-004,Preventive,Scheduled panel cleaning and inspection,2024-12-28,1131.1,Asia O&M Solutions Co. Ltd,Completed
