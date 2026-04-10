@@ -46,6 +46,27 @@ except:
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 st.sidebar.title("📚 Chart Types")
+
+# Inject CSS to visually separate the Showcase option
+st.sidebar.markdown("""
+<style>
+div[data-testid="stSidebarNav"] {}
+div[data-baseweb="radio"] > div:nth-child(8) {
+    border-top: 1px solid #ccc;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+div[data-baseweb="radio"] > div:nth-child(8)::before {
+    content: "✨ Want to see more?";
+    display: block;
+    font-weight: bold;
+    font-size: 13px;
+    color: grey;
+    margin-bottom: 6px;
+}
+</style>
+""", unsafe_allow_html=True)
+
 chart_type = st.sidebar.radio("", [
     "📈 Line Chart",
     "📊 Bar Chart",
@@ -54,7 +75,6 @@ chart_type = st.sidebar.radio("", [
     "📦 Box Plot",
     "🟥 Heatmap",
     "🥧 Pie Chart",
-    "─────────────────",
     "📐 Showcase — Visualisation to Hypothesis",
 ])
 show_hypothesis = "📐 Visualisation to Hypothesis" if "Showcase" in chart_type else "None"
