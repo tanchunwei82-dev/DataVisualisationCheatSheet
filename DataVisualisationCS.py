@@ -29,11 +29,8 @@ def load_data():
 
 try:
     perf_df, assets_df, risks_df, maint_df = load_data()
-    data_loaded = True
 except:
     st.warning("⚠️ CSV files not found. Using sample data instead.")
-    data_loaded = False
-    # Generate sample data if CSVs not available
     np.random.seed(42)
     months = pd.date_range('2024-01-01', periods=12, freq='MS')
     assets_list = ['ASSET-001', 'ASSET-002', 'ASSET-003', 'ASSET-004']
@@ -42,13 +39,15 @@ except:
          'Actual_Yield_MWh': np.random.normal(100, 15),
          'Expected_Yield_MWh': 100,
          'Performance_Ratio_Pct': np.random.normal(95, 8),
+         'Irradiation_kWh_m2': np.random.normal(130, 10),
          'Downtime_Hours': np.random.randint(0, 20)}
         for m in months for a in assets_list
     ])
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 st.sidebar.title("📚 Chart Types")
-chart_type = st.sidebar.radio("Select a chart type:", [
+chart_type = st.sidebar.radio("Select a chart to explore:", [
+    "— Quick Reference (Home)",
     "📈 Line Chart",
     "📊 Bar Chart",
     "📉 Histogram",
@@ -59,117 +58,145 @@ chart_type = st.sidebar.radio("Select a chart type:", [
 ])
 
 st.sidebar.divider()
-st.sidebar.markdown("**Quick Reference**")
-st.sidebar.markdown("""
-| Chart | Best For |
-|---|---|
-| Line | Trends over time |
-| Bar | Comparisons |
-| Histogram | Distributions |
-| Scatter | Correlations |
-| Box | Spread & outliers |
-| Heatmap | Patterns in matrix |
-| Pie | Part of whole |
-""")
-
-st.sidebar.divider()
 st.sidebar.title("🎯 Showcase")
 show_hypothesis = st.sidebar.radio("Advanced examples:", [
     "None",
     "📐 Visualisation to Hypothesis",
 ])
 
-# ── Chart Sections ────────────────────────────────────────────────────────────
+# ── DEFAULT: Quick Reference Home ─────────────────────────────────────────────
+if chart_type == "— Quick Reference (Home)" and show_hypothesis == "None":
+    st.header("👋 Welcome!")
+    st.markdown("Use the **sidebar** to explore chart types or view advanced examples.")
+    st.divider()
+
+    st.subheader("📋 Quick Reference — When to Use Which Chart")
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.markdown("""
+        **📈 Line Chart**
+        - Trends over time
+        - Multiple series comparison
+        - Continuous data
+
+        **📊 Bar Chart**
+        - Compare categories
+        - Rankings
+        - Group comparisons
+        """)
+    with col2:
+        st.markdown("""
+        **📉 Histogram**
+        - Distribution of one variable
+        - Spread and skewness
+        - Identifying outliers
+
+        **🔵 Scatter Plot**
+        - Relationship between two variables
+        - Correlations
+        - Outlier detection
+        """)
+    with col3:
+        st.markdown("""
+        **📦 Box Plot**
+        - Spread across groups
+        - Median and quartiles
+        - Outlier comparison
+
+        **🟥 Heatmap**
+        - Patterns in a matrix
+        - Two categorical variables
+
+        **🥧 Pie Chart**
+        - Part of whole
+        - Proportions (< 6 categories)
+        """)
+
+    st.divider()
+    st.subheader("🛠️ Libraries Used")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("""
+        **Plotly Express** — Interactive charts
+        ```python
+        import plotly.express as px
+        fig = px.line(df, x='Month', y='Value')
+        fig.show()
+        ```
+        """)
+    with col2:
+        st.markdown("""
+        **Pandas + Matplotlib** — Static charts
+        ```python
+        import matplotlib.pyplot as plt
+        df['Value'].plot(kind='line')
+        plt.show()
+        ```
+        """)
+
+    st.divider()
+    st.info("💡 **Tip:** Select a chart type from the sidebar to see code examples and live charts. For advanced storytelling examples, explore the 🎯 Showcase section!")
 
 # ── 1. LINE CHART ─────────────────────────────────────────────────────────────
-if chart_type == "📈 Line Chart":
+elif chart_type == "📈 Line Chart" and show_hypothesis == "None":
     st.header("📈 Line Chart")
-
-    col1, col2 = st.columns([1, 1])
+    col1, col2 = st.columns(2)
     with col1:
         st.markdown("""
         **When to use:**
         - Show trends over time
-        - Compare multiple series over time
+        - Compare multiple series
         - Continuous data
 
-        **Best for:** Time series, performance tracking, yield trends
+        **Best for:** Time series, performance tracking
         """)
-
     with col2:
         st.markdown("""
         **Key parameters:**
         - `x` — x-axis column
         - `y` — y-axis column
         - `color` — group by category
-        - `title` — chart title
         - `markers=True` — show data points
         """)
-
     st.divider()
-
-    tab1, tab2 = st.tabs(["🟣 Plotly (Interactive)", "🔵 Pandas/Matplotlib (Static)"])
-
+    tab1, tab2 = st.tabs(["🟣 Plotly (Interactive)", "🔵 Matplotlib (Static)"])
     with tab1:
-        st.subheader("Plotly Line Chart")
         st.code("""
-import plotly.express as px
-
-fig = px.line(df, 
-              x='Month', 
-              y='Actual_Yield_MWh',
-              color='Asset_ID',
-              title='Monthly Energy Yield by Asset',
-              markers=True,
-              labels={'Actual_Yield_MWh': 'Yield (MWh)', 'Month': 'Month'})
+fig = px.line(df, x='Month', y='Actual_Yield_MWh',
+              color='Asset_ID', markers=True,
+              title='Monthly Energy Yield by Asset')
 fig.show()
         """, language='python')
-
-        fig = px.line(perf_df,
-                      x='Month',
-                      y='Actual_Yield_MWh',
-                      color='Asset_ID',
+        fig = px.line(perf_df, x='Month', y='Actual_Yield_MWh',
+                      color='Asset_ID', markers=True,
                       title='Monthly Energy Yield by Asset (2024)',
-                      markers=True,
-                      labels={'Actual_Yield_MWh': 'Yield (MWh)', 'Month': 'Month'})
+                      labels={'Actual_Yield_MWh': 'Yield (MWh)'})
         st.plotly_chart(fig, use_container_width=True)
-
     with tab2:
-        st.subheader("Pandas/Matplotlib Line Chart")
         st.code("""
-import matplotlib.pyplot as plt
-
 monthly = df.groupby('Month')['Actual_Yield_MWh'].sum()
-monthly.plot(kind='line', marker='o', figsize=(10, 5))
+monthly.plot(kind='line', marker='o')
 plt.title('Total Monthly Yield')
-plt.ylabel('Yield (MWh)')
-plt.xlabel('Month')
-plt.grid(True)
-plt.tight_layout()
 plt.show()
         """, language='python')
-
         fig2, ax = plt.subplots(figsize=(10, 4))
-        monthly = perf_df.groupby('Month')['Actual_Yield_MWh'].sum()
-        monthly.plot(kind='line', marker='o', ax=ax, color='steelblue')
+        perf_df.groupby('Month')['Actual_Yield_MWh'].sum().plot(kind='line', marker='o', ax=ax, color='steelblue')
         ax.set_title('Total Monthly Yield (2024)')
-        ax.set_ylabel('Yield (MWh)')
-        ax.set_xlabel('Month')
         ax.grid(True, alpha=0.3)
         plt.tight_layout()
         st.pyplot(fig2)
 
 # ── 2. BAR CHART ──────────────────────────────────────────────────────────────
-elif chart_type == "📊 Bar Chart":
+elif chart_type == "📊 Bar Chart" and show_hypothesis == "None":
     st.header("📊 Bar Chart")
-
-    col1, col2 = st.columns([1, 1])
+    col1, col2 = st.columns(2)
     with col1:
         st.markdown("""
         **When to use:**
         - Compare values across categories
         - Show rankings
-        - Compare groups side by side
+        - Group comparisons
 
         **Best for:** Asset comparisons, performance rankings
         """)
@@ -179,70 +206,46 @@ elif chart_type == "📊 Bar Chart":
         - `x` — categories
         - `y` — values
         - `barmode` — 'group' or 'stack'
-        - `orientation` — 'v' or 'h'
         - `color` — colour by category
         """)
-
     st.divider()
-    tab1, tab2 = st.tabs(["🟣 Plotly (Interactive)", "🔵 Pandas/Matplotlib (Static)"])
-
+    tab1, tab2 = st.tabs(["🟣 Plotly (Interactive)", "🔵 Matplotlib (Static)"])
     with tab1:
-        st.subheader("Plotly Bar Chart")
         st.code("""
-import plotly.express as px
-
-avg_yield = df.groupby('Asset_ID')['Actual_Yield_MWh'].mean().reset_index()
-
-fig = px.bar(avg_yield,
-             x='Asset_ID',
-             y='Actual_Yield_MWh',
-             title='Average Monthly Yield by Asset',
-             color='Asset_ID',
-             labels={'Actual_Yield_MWh': 'Avg Yield (MWh)'})
+avg = df.groupby('Asset_ID')['Actual_Yield_MWh'].mean().reset_index()
+fig = px.bar(avg, x='Asset_ID', y='Actual_Yield_MWh',
+             color='Asset_ID', title='Average Monthly Yield by Asset')
 fig.show()
         """, language='python')
-
-        avg_yield = perf_df.groupby('Asset_ID')['Actual_Yield_MWh'].mean().reset_index()
-        fig = px.bar(avg_yield,
-                     x='Asset_ID',
-                     y='Actual_Yield_MWh',
+        avg = perf_df.groupby('Asset_ID')['Actual_Yield_MWh'].mean().reset_index()
+        fig = px.bar(avg, x='Asset_ID', y='Actual_Yield_MWh', color='Asset_ID',
                      title='Average Monthly Yield by Asset',
-                     color='Asset_ID',
                      labels={'Actual_Yield_MWh': 'Avg Yield (MWh)'})
         st.plotly_chart(fig, use_container_width=True)
-
     with tab2:
-        st.subheader("Pandas/Matplotlib Bar Chart")
         st.code("""
-avg = df.groupby('Asset_ID')['Actual_Yield_MWh'].mean()
-avg.plot(kind='bar', rot=0, figsize=(8, 5), color='steelblue')
+df.groupby('Asset_ID')['Actual_Yield_MWh'].mean().plot(kind='bar', rot=0)
 plt.title('Average Monthly Yield by Asset')
-plt.ylabel('Avg Yield (MWh)')
-plt.tight_layout()
 plt.show()
         """, language='python')
-
         fig2, ax = plt.subplots(figsize=(8, 4))
-        avg = perf_df.groupby('Asset_ID')['Actual_Yield_MWh'].mean()
-        avg.plot(kind='bar', rot=0, ax=ax, color='steelblue')
+        perf_df.groupby('Asset_ID')['Actual_Yield_MWh'].mean().plot(kind='bar', rot=0, ax=ax, color='steelblue')
         ax.set_title('Average Monthly Yield by Asset')
-        ax.set_ylabel('Avg Yield (MWh)')
         plt.tight_layout()
         st.pyplot(fig2)
 
 # ── 3. HISTOGRAM ──────────────────────────────────────────────────────────────
-elif chart_type == "📉 Histogram":
+elif chart_type == "📉 Histogram" and show_hypothesis == "None":
     st.header("📉 Histogram")
-
-    col1, col2 = st.columns([1, 1])
+    col1, col2 = st.columns(2)
     with col1:
         st.markdown("""
         **When to use:**
-        - Show distribution of a single variable
-        - Understand spread and skewness
-        - Identify outliers
+        - Distribution of a single variable
+        - Spread and skewness
+        - Identifying outliers
 
-        **Best for:** Performance ratio distribution, yield spread analysis
+        **Best for:** Performance ratio distribution
         """)
     with col2:
         st.markdown("""
@@ -250,67 +253,44 @@ elif chart_type == "📉 Histogram":
         - `x` — column to distribute
         - `nbins` — number of bins
         - `color` — group by category
-        - `bins` — number of bins (matplotlib)
-        - `kde` — show density curve
         """)
-
     st.divider()
-    tab1, tab2 = st.tabs(["🟣 Plotly (Interactive)", "🔵 Pandas/Matplotlib (Static)"])
-
+    tab1, tab2 = st.tabs(["🟣 Plotly (Interactive)", "🔵 Matplotlib (Static)"])
     with tab1:
-        st.subheader("Plotly Histogram")
         st.code("""
-import plotly.express as px
-
-fig = px.histogram(df,
-                   x='Performance_Ratio_Pct',
-                   nbins=20,
-                   title='Distribution of Performance Ratio',
-                   color='Asset_ID',
-                   labels={'Performance_Ratio_Pct': 'Performance Ratio (%)'})
+fig = px.histogram(df, x='Performance_Ratio_Pct',
+                   nbins=20, color='Asset_ID',
+                   title='Distribution of Performance Ratio')
 fig.show()
         """, language='python')
-
-        fig = px.histogram(perf_df,
-                           x='Performance_Ratio_Pct',
-                           nbins=20,
+        fig = px.histogram(perf_df, x='Performance_Ratio_Pct', nbins=20, color='Asset_ID',
                            title='Distribution of Performance Ratio (%)',
-                           color='Asset_ID',
                            labels={'Performance_Ratio_Pct': 'Performance Ratio (%)'})
         st.plotly_chart(fig, use_container_width=True)
-
     with tab2:
-        st.subheader("Pandas/Matplotlib Histogram")
         st.code("""
-perf_df['Performance_Ratio_Pct'].plot(kind='hist', bins=20, figsize=(8,5))
+df['Performance_Ratio_Pct'].plot(kind='hist', bins=20)
 plt.title('Distribution of Performance Ratio')
-plt.xlabel('Performance Ratio (%)')
-plt.ylabel('Frequency')
-plt.tight_layout()
 plt.show()
         """, language='python')
-
         fig2, ax = plt.subplots(figsize=(8, 4))
         perf_df['Performance_Ratio_Pct'].plot(kind='hist', bins=20, ax=ax, color='steelblue', edgecolor='white')
         ax.set_title('Distribution of Performance Ratio (%)')
-        ax.set_xlabel('Performance Ratio (%)')
-        ax.set_ylabel('Frequency')
         plt.tight_layout()
         st.pyplot(fig2)
 
 # ── 4. SCATTER PLOT ───────────────────────────────────────────────────────────
-elif chart_type == "🔵 Scatter Plot":
+elif chart_type == "🔵 Scatter Plot" and show_hypothesis == "None":
     st.header("🔵 Scatter Plot")
-
-    col1, col2 = st.columns([1, 1])
+    col1, col2 = st.columns(2)
     with col1:
         st.markdown("""
         **When to use:**
-        - Show relationship between two variables
-        - Identify correlations
-        - Spot outliers
+        - Relationship between two variables
+        - Correlations
+        - Outlier detection
 
-        **Best for:** Actual vs Expected yield, correlation analysis
+        **Best for:** Actual vs Expected yield
         """)
     with col2:
         st.markdown("""
@@ -318,125 +298,74 @@ elif chart_type == "🔵 Scatter Plot":
         - `x` — x-axis variable
         - `y` — y-axis variable
         - `color` — group by category
-        - `size` — bubble size
-        - `trendline` — add regression line
+        - `trendline` — regression line
         """)
-
     st.divider()
-    tab1, tab2 = st.tabs(["🟣 Plotly (Interactive)", "🔵 Pandas/Matplotlib (Static)"])
-
+    tab1, tab2 = st.tabs(["🟣 Plotly (Interactive)", "🔵 Matplotlib (Static)"])
     with tab1:
-        st.subheader("Plotly Scatter Plot")
         st.code("""
-import plotly.express as px
-
-fig = px.scatter(df,
-                 x='Expected_Yield_MWh',
-                 y='Actual_Yield_MWh',
-                 color='Asset_ID',
-                 trendline='ols',
-                 title='Actual vs Expected Yield',
-                 labels={
-                     'Expected_Yield_MWh': 'Expected Yield (MWh)',
-                     'Actual_Yield_MWh': 'Actual Yield (MWh)'
-                 })
+fig = px.scatter(df, x='Expected_Yield_MWh', y='Actual_Yield_MWh',
+                 color='Asset_ID', trendline='ols',
+                 title='Actual vs Expected Yield')
 fig.show()
         """, language='python')
-
-        fig = px.scatter(perf_df,
-                         x='Expected_Yield_MWh',
-                         y='Actual_Yield_MWh',
-                         color='Asset_ID',
-                         trendline='ols',
-                         title='Actual vs Expected Yield by Asset',
-                         labels={
-                             'Expected_Yield_MWh': 'Expected Yield (MWh)',
-                             'Actual_Yield_MWh': 'Actual Yield (MWh)'
-                         })
+        fig = px.scatter(perf_df, x='Expected_Yield_MWh', y='Actual_Yield_MWh',
+                         color='Asset_ID', trendline='ols',
+                         title='Actual vs Expected Yield by Asset')
         st.plotly_chart(fig, use_container_width=True)
-
     with tab2:
-        st.subheader("Pandas/Matplotlib Scatter Plot")
         st.code("""
-perf_df.plot(kind='scatter',
-             x='Expected_Yield_MWh',
-             y='Actual_Yield_MWh',
-             figsize=(8,5), alpha=0.6)
+df.plot(kind='scatter', x='Expected_Yield_MWh',
+        y='Actual_Yield_MWh', alpha=0.6)
 plt.title('Actual vs Expected Yield')
-plt.tight_layout()
 plt.show()
         """, language='python')
-
         fig2, ax = plt.subplots(figsize=(8, 4))
-        perf_df.plot(kind='scatter',
-                     x='Expected_Yield_MWh',
-                     y='Actual_Yield_MWh',
-                     ax=ax, alpha=0.6, color='steelblue')
+        perf_df.plot(kind='scatter', x='Expected_Yield_MWh', y='Actual_Yield_MWh', ax=ax, alpha=0.6, color='steelblue')
         ax.set_title('Actual vs Expected Yield')
         plt.tight_layout()
         st.pyplot(fig2)
 
 # ── 5. BOX PLOT ───────────────────────────────────────────────────────────────
-elif chart_type == "📦 Box Plot":
+elif chart_type == "📦 Box Plot" and show_hypothesis == "None":
     st.header("📦 Box Plot")
-
-    col1, col2 = st.columns([1, 1])
+    col1, col2 = st.columns(2)
     with col1:
         st.markdown("""
         **When to use:**
-        - Show spread and distribution
-        - Compare distributions across groups
-        - Identify outliers visually
+        - Spread and distribution
+        - Compare groups
+        - Identify outliers
 
-        **Best for:** Performance ratio spread per asset, downtime distribution
+        **Best for:** Performance ratio spread per asset
         """)
     with col2:
         st.markdown("""
         **Key parameters:**
         - `x` — category grouping
-        - `y` — values to distribute
-        - `color` — colour by group
+        - `y` — values
         - `points` — 'all', 'outliers', False
-        - `notched` — show confidence interval
+        - `color` — colour by group
         """)
-
     st.divider()
-    tab1, tab2 = st.tabs(["🟣 Plotly (Interactive)", "🔵 Pandas/Matplotlib (Static)"])
-
+    tab1, tab2 = st.tabs(["🟣 Plotly (Interactive)", "🔵 Matplotlib (Static)"])
     with tab1:
-        st.subheader("Plotly Box Plot")
         st.code("""
-import plotly.express as px
-
-fig = px.box(df,
-             x='Asset_ID',
-             y='Performance_Ratio_Pct',
-             color='Asset_ID',
-             points='all',
-             title='Performance Ratio Distribution by Asset')
+fig = px.box(df, x='Asset_ID', y='Performance_Ratio_Pct',
+             color='Asset_ID', points='all',
+             title='Performance Ratio by Asset')
 fig.show()
         """, language='python')
-
-        fig = px.box(perf_df,
-                     x='Asset_ID',
-                     y='Performance_Ratio_Pct',
-                     color='Asset_ID',
-                     points='all',
+        fig = px.box(perf_df, x='Asset_ID', y='Performance_Ratio_Pct',
+                     color='Asset_ID', points='all',
                      title='Performance Ratio Distribution by Asset')
         st.plotly_chart(fig, use_container_width=True)
-
     with tab2:
-        st.subheader("Pandas/Matplotlib Box Plot")
         st.code("""
-perf_df.boxplot(column='Performance_Ratio_Pct',
-                by='Asset_ID',
-                figsize=(8, 5))
+df.boxplot(column='Performance_Ratio_Pct', by='Asset_ID')
 plt.title('Performance Ratio by Asset')
-plt.suptitle('')
-plt.tight_layout()
 plt.show()
         """, language='python')
-
         fig2, ax = plt.subplots(figsize=(8, 4))
         perf_df.boxplot(column='Performance_Ratio_Pct', by='Asset_ID', ax=ax)
         ax.set_title('Performance Ratio by Asset')
@@ -445,93 +374,54 @@ plt.show()
         st.pyplot(fig2)
 
 # ── 6. HEATMAP ────────────────────────────────────────────────────────────────
-elif chart_type == "🟥 Heatmap":
+elif chart_type == "🟥 Heatmap" and show_hypothesis == "None":
     st.header("🟥 Heatmap")
-
-    col1, col2 = st.columns([1, 1])
+    col1, col2 = st.columns(2)
     with col1:
         st.markdown("""
         **When to use:**
-        - Show patterns in a matrix
-        - Visualise correlations
-        - Compare two categorical variables
+        - Patterns in a matrix
+        - Two categorical variables
+        - Correlation matrices
 
-        **Best for:** Monthly performance by asset, correlation matrix
+        **Best for:** Monthly performance by asset
         """)
     with col2:
         st.markdown("""
         **Key parameters:**
-        - `z` — values to colour
-        - `x` — x-axis categories
-        - `y` — y-axis categories
         - `color_continuous_scale` — colour palette
         - `text_auto` — show values in cells
+        - `aspect` — cell shape
         """)
-
     st.divider()
     tab1, tab2 = st.tabs(["🟣 Plotly (Interactive)", "🔵 Matplotlib (Static)"])
-
+    perf_df['Month_Label'] = perf_df['Month'].dt.strftime('%b')
+    pivot = perf_df.pivot_table(values='Performance_Ratio_Pct',
+                                index='Asset_ID', columns='Month_Label', aggfunc='mean')
+    month_order = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+    pivot = pivot[[m for m in month_order if m in pivot.columns]]
     with tab1:
-        st.subheader("Plotly Heatmap")
         st.code("""
-import plotly.express as px
-
-pivot = df.pivot_table(
-    values='Performance_Ratio_Pct',
-    index='Asset_ID',
-    columns=df['Month'].dt.strftime('%b'),
-    aggfunc='mean'
-)
-
-fig = px.imshow(pivot,
-                title='Performance Ratio Heatmap by Asset & Month',
-                color_continuous_scale='RdYlGn',
-                text_auto='.1f')
+pivot = df.pivot_table(values='Performance_Ratio_Pct',
+                       index='Asset_ID',
+                       columns=df['Month'].dt.strftime('%b'),
+                       aggfunc='mean')
+fig = px.imshow(pivot, color_continuous_scale='RdYlGn',
+                text_auto='.1f', title='Performance Ratio Heatmap')
 fig.show()
         """, language='python')
-
-        perf_df['Month_Label'] = perf_df['Month'].dt.strftime('%b')
-        pivot = perf_df.pivot_table(
-            values='Performance_Ratio_Pct',
-            index='Asset_ID',
-            columns='Month_Label',
-            aggfunc='mean'
-        )
-        month_order = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-        pivot = pivot[[m for m in month_order if m in pivot.columns]]
-
-        fig = px.imshow(pivot,
-                        title='Performance Ratio Heatmap by Asset & Month (%)',
-                        color_continuous_scale='RdYlGn',
-                        text_auto='.1f',
-                        aspect='auto')
+        fig = px.imshow(pivot, color_continuous_scale='RdYlGn',
+                        text_auto='.1f', aspect='auto',
+                        title='Performance Ratio Heatmap by Asset & Month (%)')
         st.plotly_chart(fig, use_container_width=True)
-
     with tab2:
-        st.subheader("Matplotlib Heatmap")
         st.code("""
-import matplotlib.pyplot as plt
-import numpy as np
-
-pivot = df.pivot_table(
-    values='Performance_Ratio_Pct',
-    index='Asset_ID',
-    columns=df['Month'].dt.strftime('%b'),
-    aggfunc='mean'
-)
-
 fig, ax = plt.subplots(figsize=(12, 4))
 im = ax.imshow(pivot.values, cmap='RdYlGn', aspect='auto')
-ax.set_xticks(range(len(pivot.columns)))
-ax.set_xticklabels(pivot.columns)
-ax.set_yticks(range(len(pivot.index)))
-ax.set_yticklabels(pivot.index)
 plt.colorbar(im)
 plt.title('Performance Ratio Heatmap')
-plt.tight_layout()
 plt.show()
         """, language='python')
-
         fig2, ax = plt.subplots(figsize=(12, 3))
         im = ax.imshow(pivot.values, cmap='RdYlGn', aspect='auto')
         ax.set_xticks(range(len(pivot.columns)))
@@ -544,66 +434,45 @@ plt.show()
         st.pyplot(fig2)
 
 # ── 7. PIE CHART ──────────────────────────────────────────────────────────────
-elif chart_type == "🥧 Pie Chart":
+elif chart_type == "🥧 Pie Chart" and show_hypothesis == "None":
     st.header("🥧 Pie Chart")
-
-    col1, col2 = st.columns([1, 1])
+    col1, col2 = st.columns(2)
     with col1:
         st.markdown("""
         **When to use:**
-        - Show part-of-whole relationships
-        - Compare proportions
-        - Limited categories (< 6)
+        - Part-of-whole relationships
+        - Proportions (< 6 categories)
 
-        **Best for:** Yield share by asset, downtime proportion
+        **Best for:** Yield share by asset
         """)
     with col2:
         st.markdown("""
         **Key parameters:**
         - `values` — numeric values
         - `names` — category labels
-        - `hole` — donut chart (0 to 1)
-        - `title` — chart title
+        - `hole` — donut chart (0–1)
         - `pull` — explode a slice
         """)
-
     st.divider()
     tab1, tab2 = st.tabs(["🟣 Plotly (Interactive)", "🔵 Matplotlib (Static)"])
-
     with tab1:
-        st.subheader("Plotly Pie / Donut Chart")
         st.code("""
-import plotly.express as px
-
-total_yield = df.groupby('Asset_ID')['Actual_Yield_MWh'].sum().reset_index()
-
-fig = px.pie(total_yield,
-             values='Actual_Yield_MWh',
-             names='Asset_ID',
-             title='Total Yield Share by Asset (2024)',
-             hole=0.4)  # Remove hole=0.4 for regular pie
+total = df.groupby('Asset_ID')['Actual_Yield_MWh'].sum().reset_index()
+fig = px.pie(total, values='Actual_Yield_MWh', names='Asset_ID',
+             title='Total Yield Share by Asset', hole=0.4)
 fig.show()
         """, language='python')
-
         total_yield = perf_df.groupby('Asset_ID')['Actual_Yield_MWh'].sum().reset_index()
-        fig = px.pie(total_yield,
-                     values='Actual_Yield_MWh',
-                     names='Asset_ID',
-                     title='Total Yield Share by Asset (2024)',
-                     hole=0.4)
+        fig = px.pie(total_yield, values='Actual_Yield_MWh', names='Asset_ID',
+                     title='Total Yield Share by Asset (2024)', hole=0.4)
         st.plotly_chart(fig, use_container_width=True)
-
     with tab2:
-        st.subheader("Matplotlib Pie Chart")
         st.code("""
 total = df.groupby('Asset_ID')['Actual_Yield_MWh'].sum()
-fig, ax = plt.subplots(figsize=(7, 7))
-ax.pie(total.values, labels=total.index, autopct='%1.1f%%', startangle=90)
-ax.set_title('Total Yield Share by Asset')
-plt.tight_layout()
+fig, ax = plt.subplots(figsize=(6, 6))
+ax.pie(total.values, labels=total.index, autopct='%1.1f%%')
 plt.show()
         """, language='python')
-
         total = perf_df.groupby('Asset_ID')['Actual_Yield_MWh'].sum()
         fig2, ax = plt.subplots(figsize=(6, 6))
         ax.pie(total.values, labels=total.index, autopct='%1.1f%%', startangle=90)
@@ -611,118 +480,73 @@ plt.show()
         plt.tight_layout()
         st.pyplot(fig2)
 
-# ── 8. HYPOTHESIS TESTING ────────────────────────────────────────────────────
+# ── SHOWCASE: HYPOTHESIS TESTING ──────────────────────────────────────────────
 if show_hypothesis == "📐 Visualisation to Hypothesis":
     st.header("📐 Visualisation to Hypothesis")
     st.markdown("*Each chart below supports a specific analytical claim — the foundation of data storytelling.*")
     st.divider()
 
-    # ── Hypothesis 1 ──
+    # Hypothesis 1
     st.subheader("Hypothesis 1 — ASSET-004 Underperforms in Q3")
     st.info("💡 **Claim:** Johor Carport (ASSET-004) consistently underperforms during July–September due to maintenance issues.")
-
-    perf_df['Month_Label'] = perf_df['Month'].dt.strftime('%b')
     perf_df['Quarter'] = perf_df['Month'].dt.quarter
-
-    fig1 = px.line(perf_df,
-                   x='Month',
-                   y='Performance_Ratio_Pct',
-                   color='Asset_ID',
-                   markers=True,
-                   title='Monthly Performance Ratio by Asset — Q3 Underperformance Visible',
-                   labels={'Performance_Ratio_Pct': 'Performance Ratio (%)', 'Month': 'Month'})
-
-    # Highlight Q3 region
-    fig1.add_vrect(
-        x0="2024-07-01", x1="2024-09-30",
-        fillcolor="red", opacity=0.1,
-        layer="below", line_width=0,
-        annotation_text="Q3 — Underperformance Period",
-        annotation_position="top left"
-    )
+    fig1 = px.line(perf_df, x='Month', y='Performance_Ratio_Pct', color='Asset_ID', markers=True,
+                   title='Monthly Performance Ratio — Q3 Underperformance Visible',
+                   labels={'Performance_Ratio_Pct': 'Performance Ratio (%)'})
+    fig1.add_vrect(x0="2024-07-01", x1="2024-09-30", fillcolor="red", opacity=0.1,
+                   layer="below", line_width=0, annotation_text="Q3", annotation_position="top left")
     st.plotly_chart(fig1, use_container_width=True)
-
     asset4 = perf_df[perf_df['Asset_ID'] == 'ASSET-004']
     q3_avg = asset4[asset4['Quarter'] == 3]['Performance_Ratio_Pct'].mean()
     non_q3_avg = asset4[asset4['Quarter'] != 3]['Performance_Ratio_Pct'].mean()
-
     col1, col2 = st.columns(2)
     col1.metric("ASSET-004 Q3 Average PR", f"{q3_avg:.1f}%")
     col2.metric("ASSET-004 Non-Q3 Average PR", f"{non_q3_avg:.1f}%", delta=f"{non_q3_avg - q3_avg:.1f}% higher")
-
-    st.success("✅ **Conclusion:** ASSET-004 shows significantly lower performance ratio in Q3 (Jul–Sep), consistent with scheduled and corrective maintenance activity during this period.")
+    st.success("✅ **Conclusion:** ASSET-004 shows significantly lower performance ratio in Q3 (Jul–Sep), consistent with maintenance activity during this period.")
     st.divider()
 
-    # ── Hypothesis 2 ──
+    # Hypothesis 2
     st.subheader("Hypothesis 2 — Higher Irradiation = Higher Yield")
-    st.info("💡 **Claim:** There is a positive correlation between monthly irradiation and actual energy yield across all assets.")
-
-    fig2 = px.scatter(perf_df,
-                      x='Irradiation_kWh_m2',
-                      y='Actual_Yield_MWh',
-                      color='Asset_ID',
-                      trendline='ols',
+    st.info("💡 **Claim:** There is a positive correlation between monthly irradiation and actual energy yield.")
+    fig2 = px.scatter(perf_df, x='Irradiation_kWh_m2', y='Actual_Yield_MWh',
+                      color='Asset_ID', trendline='ols',
                       title='Irradiation vs Actual Yield — Positive Correlation',
-                      labels={
-                          'Irradiation_kWh_m2': 'Irradiation (kWh/m²)',
-                          'Actual_Yield_MWh': 'Actual Yield (MWh)'
-                      })
+                      labels={'Irradiation_kWh_m2': 'Irradiation (kWh/m²)', 'Actual_Yield_MWh': 'Actual Yield (MWh)'})
     st.plotly_chart(fig2, use_container_width=True)
-    st.success("✅ **Conclusion:** A clear positive correlation exists between monthly irradiation and actual energy yield — higher solar irradiation consistently produces more energy output across all APAC sites.")
+    st.success("✅ **Conclusion:** A clear positive correlation exists — higher solar irradiation consistently produces more energy output across all APAC sites.")
     st.divider()
 
-    # ── Hypothesis 3 ──
+    # Hypothesis 3
     st.subheader("Hypothesis 3 — Yield Variance is Worst in Q3")
     st.info("💡 **Claim:** Yield variance (actual vs expected) is most negative during Q3 across all assets.")
-
     perf_df['Yield_Variance'] = perf_df['Actual_Yield_MWh'] - perf_df['Expected_Yield_MWh']
     perf_df['Month_Label'] = perf_df['Month'].dt.strftime('%b')
     month_order = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-
-    pivot_var = perf_df.pivot_table(
-        values='Yield_Variance',
-        index='Asset_ID',
-        columns='Month_Label',
-        aggfunc='mean'
-    )
+    pivot_var = perf_df.pivot_table(values='Yield_Variance', index='Asset_ID', columns='Month_Label', aggfunc='mean')
     pivot_var = pivot_var[[m for m in month_order if m in pivot_var.columns]]
-
-    fig4 = px.imshow(pivot_var,
-                     title='Yield Variance Heatmap by Asset & Month (MWh)',
-                     color_continuous_scale='RdYlGn',
-                     text_auto='.1f',
-                     aspect='auto',
-                     color_continuous_midpoint=0)
-    st.plotly_chart(fig4, use_container_width=True)
-    st.success("✅ **Conclusion:** The heatmap clearly shows negative yield variance (red) concentrated in Q3 months (Jul–Sep), particularly for ASSET-004 — confirming that Q3 is the most challenging performance period across the APAC portfolio.")
+    fig3 = px.imshow(pivot_var, title='Yield Variance Heatmap by Asset & Month (MWh)',
+                     color_continuous_scale='RdYlGn', text_auto='.1f',
+                     aspect='auto', color_continuous_midpoint=0)
+    st.plotly_chart(fig3, use_container_width=True)
+    st.success("✅ **Conclusion:** Negative yield variance (red) is concentrated in Q3 (Jul–Sep), particularly for ASSET-004 — confirming Q3 is the most challenging performance period.")
     st.divider()
 
-    # ── Hypothesis 4 ──
+    # Hypothesis 4
     st.subheader("Hypothesis 4 — Portfolio Yield is Dominated by Largest Asset")
-    st.info("💡 **Claim:** ASSET-001 (Sabah, 13.45 MWp) contributes the majority of total portfolio yield due to its significantly larger installed capacity.")
-
+    st.info("💡 **Claim:** ASSET-001 (Sabah, 13.45 MWp) contributes the majority of total portfolio yield due to its larger installed capacity.")
     total_yield = perf_df.groupby('Asset_ID')['Actual_Yield_MWh'].sum().reset_index()
-
     col1, col2 = st.columns(2)
     with col1:
-        fig5a = px.pie(total_yield,
-                       values='Actual_Yield_MWh',
-                       names='Asset_ID',
-                       title='Total Yield Share by Asset (2024)',
-                       hole=0.4)
-        st.plotly_chart(fig5a, use_container_width=True)
-
+        fig4a = px.pie(total_yield, values='Actual_Yield_MWh', names='Asset_ID',
+                       title='Total Yield Share by Asset (2024)', hole=0.4)
+        st.plotly_chart(fig4a, use_container_width=True)
     with col2:
-        capacity = {'ASSET-001': 13.45, 'ASSET-002': 2.83, 'ASSET-003': 4.20, 'ASSET-004': 1.80}
-        cap_df = pd.DataFrame(list(capacity.items()), columns=['Asset_ID', 'Capacity_MWp'])
-        fig5b = px.bar(cap_df,
-                       x='Asset_ID',
-                       y='Capacity_MWp',
-                       title='Installed Capacity by Asset (MWp)',
-                       color='Asset_ID')
-        st.plotly_chart(fig5b, use_container_width=True)
-
-    st.success("✅ **Conclusion:** ASSET-001 (Sabah Ground-Mount, 13.45 MWp) dominates the portfolio yield — contributing the largest share of total energy production, directly proportional to its installed capacity advantage over the other three sites.")
+        cap_df = pd.DataFrame({'Asset_ID': ['ASSET-001','ASSET-002','ASSET-003','ASSET-004'],
+                               'Capacity_MWp': [13.45, 2.83, 4.20, 1.80]})
+        fig4b = px.bar(cap_df, x='Asset_ID', y='Capacity_MWp',
+                       title='Installed Capacity by Asset (MWp)', color='Asset_ID')
+        st.plotly_chart(fig4b, use_container_width=True)
+    st.success("✅ **Conclusion:** ASSET-001 dominates portfolio yield — directly proportional to its installed capacity advantage over the other three APAC sites.")
 
 # ── Footer ────────────────────────────────────────────────────────────────────
 st.divider()
