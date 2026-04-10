@@ -439,7 +439,6 @@ plt.show()
 
 # ── SHOWCASE: HYPOTHESIS TESTING ──────────────────────────────────────────────
 if show_hypothesis == "📐 Visualisation to Hypothesis":
-    st.divider()
 
     # Hypothesis 1
     st.subheader("Hypothesis 1 — ASSET-004 Underperforms in Q3")
