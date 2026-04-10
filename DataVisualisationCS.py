@@ -13,8 +13,12 @@ st.set_page_config(
 )
 
 # ── Header ────────────────────────────────────────────────────────────────────
-st.title("📊 Data Visualisation Cheat Sheet")
-st.markdown("*A personal reference guide by Tan Chun Wei — tanchunwei.com*")
+if st.session_state.get('showcase', False):
+    st.title("📐 Visualisation to Hypothesis")
+    st.markdown("*Each chart supports a specific analytical claim — the foundation of data storytelling.*")
+else:
+    st.title("📊 Data Visualisation Cheat Sheet")
+    st.markdown("*A personal reference guide by Tan Chun Wei — tanchunwei.com*")
 st.divider()
 
 # ── Load Data ─────────────────────────────────────────────────────────────────
