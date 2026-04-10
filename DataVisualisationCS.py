@@ -46,28 +46,7 @@ except:
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 st.sidebar.title("📚 Chart Types")
-
-# Inject CSS to visually separate the Showcase option
-st.sidebar.markdown("""
-<style>
-div[data-testid="stSidebarNav"] {}
-div[data-baseweb="radio"] > div:nth-child(8) {
-    border-top: 1px solid #ccc;
-    margin-top: 10px;
-    padding-top: 10px;
-}
-div[data-baseweb="radio"] > div:nth-child(8)::before {
-    content: "✨ Want to see more?";
-    display: block;
-    font-weight: bold;
-    font-size: 13px;
-    color: grey;
-    margin-bottom: 6px;
-}
-</style>
-""", unsafe_allow_html=True)
-
-chart_type = st.sidebar.radio("", [
+chart_type = st.sidebar.radio("Select a chart to explore:", [
     "📈 Line Chart",
     "📊 Bar Chart",
     "📉 Histogram",
@@ -75,9 +54,26 @@ chart_type = st.sidebar.radio("", [
     "📦 Box Plot",
     "🟥 Heatmap",
     "🥧 Pie Chart",
-    "📐 Showcase — Visualisation to Hypothesis",
 ])
-show_hypothesis = "📐 Visualisation to Hypothesis" if "Showcase" in chart_type else "None"
+
+st.sidebar.divider()
+st.sidebar.markdown("**✨ Want to see more?**")
+showcase = st.sidebar.checkbox("📐 Showcase — Visualisation to Hypothesis")
+show_hypothesis = "📐 Visualisation to Hypothesis" if showcase else "None"
+
+st.sidebar.divider()
+st.sidebar.markdown("**📋 Quick Reference**")
+st.sidebar.markdown("""
+| Chart | Best For |
+|---|---|
+| 📈 Line | Trends over time |
+| 📊 Bar | Compare categories |
+| 📉 Histogram | Distributions |
+| 🔵 Scatter | Correlations |
+| 📦 Box | Spread & outliers |
+| 🟥 Heatmap | Patterns in matrix |
+| 🥧 Pie | Part of whole |
+""")
 
 st.sidebar.divider()
 st.sidebar.markdown("**📋 Quick Reference**")
