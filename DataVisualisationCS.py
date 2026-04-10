@@ -44,36 +44,38 @@ except:
         for m in months for a in assets_list
     ])
 
+# ── Session State ─────────────────────────────────────────────────────────────
+if 'showcase' not in st.session_state:
+    st.session_state.showcase = False
+if 'chart_type' not in st.session_state:
+    st.session_state.chart_type = "📈 Line Chart"
+
+def on_chart_change():
+    st.session_state.showcase = False
+
+def on_showcase_change():
+    if st.session_state.showcase:
+        st.session_state.chart_type = None
+
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 st.sidebar.title("📚 Chart Types")
-chart_type = st.sidebar.radio("Select a chart to explore:", [
-    "📈 Line Chart",
-    "📊 Bar Chart",
-    "📉 Histogram",
-    "🔵 Scatter Plot",
-    "📦 Box Plot",
-    "🟥 Heatmap",
-    "🥧 Pie Chart",
-])
+chart_type = st.sidebar.radio(
+    "Select a chart to explore:",
+    ["📈 Line Chart", "📊 Bar Chart", "📉 Histogram",
+     "🔵 Scatter Plot", "📦 Box Plot", "🟥 Heatmap", "🥧 Pie Chart"],
+    index=0 if not st.session_state.showcase else None,
+    on_change=on_chart_change,
+    key="chart_type"
+)
 
 st.sidebar.divider()
 st.sidebar.markdown("**✨ Want to see more?**")
-showcase = st.sidebar.checkbox("📐 Showcase — Visualisation to Hypothesis")
+showcase = st.sidebar.checkbox(
+    "📐 Showcase — Visualisation to Hypothesis",
+    key="showcase",
+    on_change=on_showcase_change
+)
 show_hypothesis = "📐 Visualisation to Hypothesis" if showcase else "None"
-
-st.sidebar.divider()
-st.sidebar.markdown("**📋 Quick Reference**")
-st.sidebar.markdown("""
-| Chart | Best For |
-|---|---|
-| 📈 Line | Trends over time |
-| 📊 Bar | Compare categories |
-| 📉 Histogram | Distributions |
-| 🔵 Scatter | Correlations |
-| 📦 Box | Spread & outliers |
-| 🟥 Heatmap | Patterns in matrix |
-| 🥧 Pie | Part of whole |
-""")
 
 st.sidebar.divider()
 st.sidebar.markdown("**📋 Quick Reference**")
