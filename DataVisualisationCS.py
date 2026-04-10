@@ -15,43 +15,6 @@ st.set_page_config(
 # ── Header ────────────────────────────────────────────────────────────────────
 st.title("📊 Data Visualisation Cheat Sheet")
 st.markdown("*A personal reference guide by Tan Chun Wei — tanchunwei.com*")
-
-# ── Quick Reference Table ─────────────────────────────────────────────────────
-with st.expander("📋 Quick Reference — Which chart for what?", expanded=True):
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.markdown("""
-        **📈 Line Chart**
-        Trends over time
-
-        **📊 Bar Chart**
-        Compare categories
-        """)
-    with col2:
-        st.markdown("""
-        **📉 Histogram**
-        Distributions
-
-        **🔵 Scatter Plot**
-        Correlations
-        """)
-    with col3:
-        st.markdown("""
-        **📦 Box Plot**
-        Spread & outliers
-
-        **🟥 Heatmap**
-        Patterns in matrix
-        """)
-    with col4:
-        st.markdown("""
-        **🥧 Pie Chart**
-        Part of whole
-
-        **📐 Advanced Plots**
-        Data storytelling
-        """)
-
 st.divider()
 
 # ── Load Data ─────────────────────────────────────────────────────────────────
@@ -91,9 +54,24 @@ chart_type = st.sidebar.radio("Select a chart to explore:", [
     "📦 Box Plot",
     "🟥 Heatmap",
     "🥧 Pie Chart",
-    "📐 Advanced Plots",
+    "📐 Showcase",
 ])
-show_hypothesis = "📐 Visualisation to Hypothesis" if "Advanced Plots" in chart_type else "None"
+show_hypothesis = "📐 Visualisation to Hypothesis" if "Showcase" in chart_type else "None"
+
+st.sidebar.divider()
+st.sidebar.markdown("**📋 Quick Reference**")
+st.sidebar.markdown("""
+| Chart | Best For |
+|---|---|
+| 📈 Line | Trends over time |
+| 📊 Bar | Compare categories |
+| 📉 Histogram | Distributions |
+| 🔵 Scatter | Correlations |
+| 📦 Box | Spread & outliers |
+| 🟥 Heatmap | Patterns in matrix |
+| 🥧 Pie | Part of whole |
+| 📐 Showcase | Data storytelling |
+""")
 
 # ── 1. LINE CHART ─────────────────────────────────────────────────────────────
 if chart_type == "📈 Line Chart" and show_hypothesis == "None":
