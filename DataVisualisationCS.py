@@ -15,6 +15,43 @@ st.set_page_config(
 # ── Header ────────────────────────────────────────────────────────────────────
 st.title("📊 Data Visualisation Cheat Sheet")
 st.markdown("*A personal reference guide by Tan Chun Wei — tanchunwei.com*")
+
+# ── Quick Reference Table ─────────────────────────────────────────────────────
+with st.expander("📋 Quick Reference — Which chart for what?", expanded=True):
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.markdown("""
+        **📈 Line Chart**
+        Trends over time
+
+        **📊 Bar Chart**
+        Compare categories
+        """)
+    with col2:
+        st.markdown("""
+        **📉 Histogram**
+        Distributions
+
+        **🔵 Scatter Plot**
+        Correlations
+        """)
+    with col3:
+        st.markdown("""
+        **📦 Box Plot**
+        Spread & outliers
+
+        **🟥 Heatmap**
+        Patterns in matrix
+        """)
+    with col4:
+        st.markdown("""
+        **🥧 Pie Chart**
+        Part of whole
+
+        **📐 Advanced Plots**
+        Data storytelling
+        """)
+
 st.divider()
 
 # ── Load Data ─────────────────────────────────────────────────────────────────
@@ -47,7 +84,6 @@ except:
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 st.sidebar.title("📚 Chart Types")
 chart_type = st.sidebar.radio("Select a chart to explore:", [
-    "— Quick Reference (Home)",
     "📈 Line Chart",
     "📊 Bar Chart",
     "📉 Histogram",
@@ -55,91 +91,12 @@ chart_type = st.sidebar.radio("Select a chart to explore:", [
     "📦 Box Plot",
     "🟥 Heatmap",
     "🥧 Pie Chart",
+    "📐 Advanced Plots",
 ])
-
-st.sidebar.divider()
-st.sidebar.title("🎯 Showcase")
-show_hypothesis = st.sidebar.radio("Advanced examples:", [
-    "None",
-    "📐 Visualisation to Hypothesis",
-])
-
-# ── DEFAULT: Quick Reference Home ─────────────────────────────────────────────
-if chart_type == "— Quick Reference (Home)" and show_hypothesis == "None":
-    st.header("👋 Welcome!")
-    st.markdown("Use the **sidebar** to explore chart types or view advanced examples.")
-    st.divider()
-
-    st.subheader("📋 Quick Reference — When to Use Which Chart")
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        st.markdown("""
-        **📈 Line Chart**
-        - Trends over time
-        - Multiple series comparison
-        - Continuous data
-
-        **📊 Bar Chart**
-        - Compare categories
-        - Rankings
-        - Group comparisons
-        """)
-    with col2:
-        st.markdown("""
-        **📉 Histogram**
-        - Distribution of one variable
-        - Spread and skewness
-        - Identifying outliers
-
-        **🔵 Scatter Plot**
-        - Relationship between two variables
-        - Correlations
-        - Outlier detection
-        """)
-    with col3:
-        st.markdown("""
-        **📦 Box Plot**
-        - Spread across groups
-        - Median and quartiles
-        - Outlier comparison
-
-        **🟥 Heatmap**
-        - Patterns in a matrix
-        - Two categorical variables
-
-        **🥧 Pie Chart**
-        - Part of whole
-        - Proportions (< 6 categories)
-        """)
-
-    st.divider()
-    st.subheader("🛠️ Libraries Used")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("""
-        **Plotly Express** — Interactive charts
-        ```python
-        import plotly.express as px
-        fig = px.line(df, x='Month', y='Value')
-        fig.show()
-        ```
-        """)
-    with col2:
-        st.markdown("""
-        **Pandas + Matplotlib** — Static charts
-        ```python
-        import matplotlib.pyplot as plt
-        df['Value'].plot(kind='line')
-        plt.show()
-        ```
-        """)
-
-    st.divider()
-    st.info("💡 **Tip:** Select a chart type from the sidebar to see code examples and live charts. For advanced storytelling examples, explore the 🎯 Showcase section!")
+show_hypothesis = "📐 Visualisation to Hypothesis" if "Advanced Plots" in chart_type else "None"
 
 # ── 1. LINE CHART ─────────────────────────────────────────────────────────────
-elif chart_type == "📈 Line Chart" and show_hypothesis == "None":
+if chart_type == "📈 Line Chart" and show_hypothesis == "None":
     st.header("📈 Line Chart")
     col1, col2 = st.columns(2)
     with col1:
