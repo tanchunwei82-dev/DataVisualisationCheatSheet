@@ -46,7 +46,7 @@ except:
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 st.sidebar.title("📚 Chart Types")
-chart_type = st.sidebar.radio("Select a chart to explore:", [
+chart_type = st.sidebar.radio("", [
     "📈 Line Chart",
     "📊 Bar Chart",
     "📉 Histogram",
@@ -54,7 +54,8 @@ chart_type = st.sidebar.radio("Select a chart to explore:", [
     "📦 Box Plot",
     "🟥 Heatmap",
     "🥧 Pie Chart",
-    "📐 Showcase",
+    "─────────────────",
+    "📐 Showcase — Visualisation to Hypothesis",
 ])
 show_hypothesis = "📐 Visualisation to Hypothesis" if "Showcase" in chart_type else "None"
 
@@ -70,7 +71,6 @@ st.sidebar.markdown("""
 | 📦 Box | Spread & outliers |
 | 🟥 Heatmap | Patterns in matrix |
 | 🥧 Pie | Part of whole |
-| 📐 Showcase | Data storytelling |
 """)
 
 # ── 1. LINE CHART ─────────────────────────────────────────────────────────────
